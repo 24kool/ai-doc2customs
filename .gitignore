@@ -9,3 +9,4 @@ web/.next
 # OS/Editor
 .DS_Store
 *.log
+data/
