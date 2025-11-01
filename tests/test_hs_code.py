@@ -56,7 +56,9 @@ Document text:
     except json.JSONDecodeError:
         return {"error": "Failed to parse JSON", "raw_response": response_text}
 
-    
+def extract_hts_codes(text):
+    prompt = 
+
 if __name__ == "__main__":
     file_paths = [
         str(Path(__file__).parent.parent / "data" / "sample2_INVOICE_CustomsFOB.pdf"),
