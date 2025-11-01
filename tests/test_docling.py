@@ -1,6 +1,6 @@
 from docling.document_converter import DocumentConverter
 
-source = "https://arxiv.org/pdf/2408.09869"  # document per local path or URL
+source = "https://arxiv.org/pdf/2408.09869"
 converter = DocumentConverter()
 result = converter.convert(source)
-print(result.document.export_to_markdown())  # output: "## Docling Technical Report[...]"
+print(result.document.export_to_markdown())
