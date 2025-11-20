@@ -2,11 +2,81 @@
 @baseUrl = http://localhost:8000
 
 ###############################################
+# Health Check
+###############################################
+
+### Root endpoint
+GET {{baseUrl}}/
+
+### Vector Store health check
+GET {{baseUrl}}/api/health/vector-store
+
+###############################################
+# HTS Code Search (Vector Search)
+###############################################
+
+### Search HTS codes - English query
+GET {{baseUrl}}/api/search-hts?query=textile products&top_k=5
+
+### Search HTS codes - Korean query
+GET {{baseUrl}}/api/search-hts?query=섬유 제품&top_k=5
+
+### Search HTS codes - Animals
+GET {{baseUrl}}/api/search-hts?query=live animals horses&top_k=3
+
+### Search HTS codes - Food products
+GET {{baseUrl}}/api/search-hts?query=dairy products milk cheese&top_k=5
+
+### Search HTS codes - Electronics
+GET {{baseUrl}}/api/search-hts?query=electronic equipment computers&top_k=3
+
+### Search HTS codes - Long product description (Bracket)
+GET {{baseUrl}}/api/search-hts?query=Bracket, Secondary Rack, Extended. Made from steel, galvanized or treated for corrosion resistance. Designed for mounting secondary racks on utility poles or support structures. Used in electrical distribution systems to support and organize low-voltage service wires.&top_k=5
+
+### Search HTS codes - Simple version (Bracket)
+GET {{baseUrl}}/api/search-hts?query=steel bracket for electrical utility pole mounting&top_k=5
+
+### Search HTS codes - POST with long description (Basic)
+POST {{baseUrl}}/api/search-hts
+Content-Type: application/json
+
+{
+  "query": "Product Name: Bracket, Secondary Rack, Extended (Ext). Material/Composition: Made from steel, likely galvanized or otherwise treated for corrosion resistance, suitable for outdoor use in varying weather conditions. Intended Use: This bracket is specifically designed for mounting secondary racks on utility poles or other support structures. Secondary racks are crucial components in electrical distribution systems, used to support and organize low-voltage service wires (secondary conductors). Key Characteristics: As an extended variant, it may feature a longer reach or greater offset from the mounting surface to accommodate specific installation requirements or larger capacity racks. It is a robust, essential piece of hardware for the stable and safe configuration of overhead power lines.",
+  "top_k": 4,
+  "use_reranking": false
+}
+
+### Search HTS codes - POST with LLM Reranking (Most Accurate! ⭐)
+POST {{baseUrl}}/api/search-hts
+Content-Type: application/json
+
+{
+  "query": "Product Name: Bracket, Secondary Rack, Extended (Ext). Material/Composition: Made from steel, likely galvanized or otherwise treated for corrosion resistance, suitable for outdoor use in varying weather conditions. Intended Use: This bracket is specifically designed for mounting secondary racks on utility poles or other support structures. Secondary racks are crucial components in electrical distribution systems, used to support and organize low-voltage service wires (secondary conductors). Key Characteristics: As an extended variant, it may feature a longer reach or greater offset from the mounting surface to accommodate specific installation requirements or larger capacity racks. It is a robust, essential piece of hardware for the stable and safe configuration of overhead power lines.",
+  "top_k": 5,
+  "use_reranking": true
+}
+
+### Search HTS codes - POST with simple query
+POST {{baseUrl}}/api/search-hts
+Content-Type: application/json
+
+{
+  "query": "steel brackets and mounting hardware",
+  "top_k": 3
+}
+
+### Get specific HTS code details
+GET {{baseUrl}}/api/hts/0101
+
+### Get another HTS code details
+GET {{baseUrl}}/api/hts/0201
+
+###############################################
 # Document Processing Endpoints
 ###############################################
 
 ### Process documents - Multiple files (PDF + Excel)
-POST {{baseUrl}}/process-documents
+POST {{baseUrl}}/api/process-documents
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -23,8 +93,10 @@ Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
 
 ###############################################
 # Notes:
-# 1. Make sure the server is running: python -m app.main
-# 2. For VS Code: Install "REST Client" extension by Huachao Mao
-# 3. For IntelliJ/PyCharm: Built-in HTTP Client support
-# 4. Click "Send Request" above each ### section to execute
+# 1. Build vector store first: python build_vector_store.py
+# 2. Start the server: uvicorn app.main:app --reload
+# 3. For VS Code: Install "REST Client" extension by Huachao Mao
+# 4. For IntelliJ/PyCharm: Built-in HTTP Client support
+# 5. Click "Send Request" above each ### section to execute
+# 6. Swagger UI: http://localhost:8000/docs
 ###############################################

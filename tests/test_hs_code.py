@@ -31,13 +31,13 @@ Instructions:
 - Do NOT include markdown code blocks or explanations
 - If multiple products exist, select the most prominent or representative one
 - If HS Code is not found in document, predict the most appropriate HS Code based on product description
+- For product_description, include detailed information such as: product name, material/composition, intended use, key characteristics, and any relevant specifications
 - Use the following JSON structure:
 
 {{
-  "product_description": "product name or description",
   "hs_code": "123456",
   "confidence": "high/medium/low",
-  "reason": "brief explanation why this is the representative HS code"
+  "product_description": "detailed product description including name, material, intended use, and key characteristics",
 }}
 
 Document text:
@@ -55,9 +55,6 @@ Document text:
         return json.loads(response_text)
     except json.JSONDecodeError:
         return {"error": "Failed to parse JSON", "raw_response": response_text}
-
-def extract_hts_codes(text):
-    prompt = 
 
 if __name__ == "__main__":
     file_paths = [

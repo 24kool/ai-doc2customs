@@ -1,6 +1,13 @@
 # Python (backend)
 __pycache__
 .env
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Vector Store (large files, can be rebuilt)
+data/hts_chroma/
 
 # Node/Next.js (frontend)
 web/node_modules
@@ -9,4 +16,7 @@ web/.next
 # OS/Editor
 .DS_Store
 *.log
+
+# Data files (Note: data/ contains HTS JSON files and vector store)
+# If you want to commit HTS JSON files, remove this line and only ignore hts_chroma above
 data/
